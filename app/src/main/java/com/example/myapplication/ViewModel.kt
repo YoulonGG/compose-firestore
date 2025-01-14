@@ -6,23 +6,23 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewModel : ViewModel() {
-    private val _courseList = mutableStateListOf<GridModal?>()
-    val courseList: List<GridModal?> = _courseList
+    private val _dataList = mutableStateListOf<GridModal?>()
+    val data: List<GridModal?> = _dataList
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init {
-        fetchCourses()
+        fetchDB()
     }
 
-    private fun fetchCourses() {
+    private fun fetchDB() {
         db.collection("Data").get().addOnSuccessListener { snapshot ->
             if (!snapshot.isEmpty) {
                 val list: List<DocumentSnapshot> = snapshot.documents
                 for (d in list) {
                     val dataModal: GridModal? = d.toObject(GridModal::class.java)
                     dataModal?.let {
-                        _courseList.add(
+                        _dataList.add(
                             GridModal(
                                 location = it.location,
                                 description = it.description,
@@ -35,3 +35,9 @@ class ViewModel : ViewModel() {
         }
     }
 }
+
+data class GridModal(
+    val location: String? = null,
+    val description: String? = null,
+    val imageUrl: String? = null
+)

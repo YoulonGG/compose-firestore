@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,18 +24,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 
-data class GridModal(
-    val location: String? = null,
-    val description: String? = null,
-    val imageUrl: String? = null
-)
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun GridView() {
 
     val gridViewModel: ViewModel = viewModel()
-    val courseList = gridViewModel.courseList
+    val dataList = gridViewModel.data
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -45,8 +38,8 @@ fun GridView() {
             .padding(10.dp)
             .safeDrawingPadding()
     ) {
-        items(courseList.size) { index ->
-            val item = courseList[index] ?: return@items
+        items (dataList.size) { index ->
+            val item = dataList[index] ?: return@items
             Card(
                 colors = CardDefaults.cardColors(Color(0xFF006d77)),
                 modifier = Modifier.padding(horizontal = 5.dp, vertical = 5.dp),
